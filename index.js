@@ -3,13 +3,14 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { initialiseDatabase } from "./db.js";
 import userRoutes from "./routes/userRoutes.js";
+import sessionRoutes from "./routes/sessionRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
-const allowedOrigins = ["http://localhost:3000"];
 
+const allowedOrigins = ["http://localhost:3000"];
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -38,3 +39,4 @@ initialiseDatabase()
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/sessions", sessionRoutes);

@@ -1,11 +1,11 @@
-import { Pool } from 'pg';
-import dotenv from 'dotenv';
+import { Pool } from "pg";
+import dotenv from "dotenv";
 dotenv.config();
 
 // create a connection pool to the database
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  timezone: 'Asia/Kolkata'
+  timezone: "Asia/Kolkata",
 });
 
 //run table creation query if not exists
@@ -20,7 +20,7 @@ export async function initialiseDatabase() {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-  `); 
+  `);
   await pool.query(`
     CREATE TABLE IF NOT EXISTS sessions (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -28,11 +28,13 @@ export async function initialiseDatabase() {
       student_id UUID REFERENCES users(id) ON DELETE SET NULL,
       topic TEXT,
       status TEXT CHECK (status IN ('active','ended')) DEFAULT 'active',
+      student_joined BOOLEAN DEFAULT false,
+      student_joined_at TIMESTAMP,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       ended_at TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-  `); 
+  `);
   await pool.query(`
     CREATE TABLE IF NOT EXISTS messages (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -42,7 +44,7 @@ export async function initialiseDatabase() {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-  `); 
+  `);
   await pool.query(`
     CREATE TABLE IF NOT EXISTS code_snapshots (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -51,9 +53,7 @@ export async function initialiseDatabase() {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-  `); 
-   
- 
-  console.log('Database Initialised');
-};
- 
+  `);
+
+  console.log("Database Initialised");
+}

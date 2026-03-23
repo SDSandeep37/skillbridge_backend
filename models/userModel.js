@@ -53,7 +53,7 @@ export async function getUserWithEmailPassword(email, passWord) {
     throw error;
   }
 }
-
+// getting user by id stored as jwt token
 export async function getUserDetails(id) {
   try {
     const result = await pool.query(`SELECT * FROM users WHERE id = $1`, [id]);
@@ -62,6 +62,24 @@ export async function getUserDetails(id) {
     delete user.created_at;
     delete user.updated_at;
     return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+//Get all the students list
+export async function getAllStudents() {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM users WHERE role = 'student'`,
+    );
+    const students = result.rows;
+    students.forEach((student) => {
+      delete student.password;
+      delete student.created_at;
+      delete student.updated_at;
+    });
+    return students;
   } catch (error) {
     throw error;
   }

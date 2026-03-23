@@ -49,6 +49,7 @@ export async function createUserControllder(request, response) {
       requestedPassword: password,
     });
   }
+
   const passwordHashed = await hashPassword(password);
   try {
     const user = await User.createUser(email, name, role, passwordHashed);
@@ -141,6 +142,7 @@ export async function loginController(request, response) {
   }
 }
 
+// login checked with jwt and after this sending the user deatils
 export async function userLoginCheck(request, response) {
   const { userId } = request.user;
 
@@ -157,5 +159,34 @@ export async function userLoginCheck(request, response) {
     response
       .status(500)
       .json({ error: `Internal Server Error: ${err.message}` });
+  }
+}
+
+//Getting all the users with role student
+export async function getUserRoleStudent(request, response) {
+  const { role } = request.user;
+  if (!role || role !== "mentor") {
+    return response.status(400).json({
+      error: "Request denied",
+      message: "Only mentors are allowed for this action",
+    });
+  }
+  try {
+    const students = await User.getAllStudents();
+    if (students.length === 0) {
+      return response.json({
+        students: students,
+        message: "Yet to register a student- No student found",
+      });
+    }
+    return response.json({
+      students: students,
+      message: "All user list with role student",
+    });
+  } catch (error) {
+    console.error("Error getting user with role student", error);
+    response
+      .status(500)
+      .json({ error: `Internal Server Error: ${error.message}` });
   }
 }

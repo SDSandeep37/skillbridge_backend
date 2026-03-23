@@ -6,7 +6,7 @@ export function verifyToken(request, response, next) {
 
   // Check for token in cookies first
   token = getTokenFromCookie(request);
-  console.log(token);
+  // console.log(token);
   // Fallback to Authorization header if no cookie found
   if (!token) {
     const authHeader = request.headers.authorization;
@@ -24,7 +24,7 @@ export function verifyToken(request, response, next) {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
+    // console.log(decoded);
     // Attach user data
     request.user = decoded;
 
