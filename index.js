@@ -1,12 +1,20 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+
+// for socket.io
+
+import { createServer } from "http";
+import { Server } from "socket.io";
+
 import { initialiseDatabase } from "./db.js";
 import userRoutes from "./routes/userRoutes.js";
 import sessionRoutes from "./routes/sessionRoutes.js";
+import { socketHandler } from "./sockets/socketHandler.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -27,9 +35,31 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options(/.*/, cors(corsOptions));
 
+//socket.io
+// const server = http.createServer(app);
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: allowedOrigins,
+    credentials: true,
+    methods: ["GET", "POST"],
+  },
+});
+// initiallise socket events
+socketHandler(io);
+
+// initialiseDatabase()
+//   .then(() => {
+//     app.listen(PORT, () => {
+//       console.log(`Server running on port ${PORT}`);
+//     });
+//   })
+//   .catch((err) => {
+//     console.error("Failed to initialize database", err);
+//   });
 initialiseDatabase()
   .then(() => {
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
   })
