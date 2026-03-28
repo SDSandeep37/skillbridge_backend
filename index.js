@@ -20,7 +20,11 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = ["http://localhost:3000", "http://10.16.0.240:3000"];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://10.16.0.240:3000",
+  "https://skillbridge-sandy-chi.vercel.app/",
+];
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
