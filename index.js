@@ -10,6 +10,8 @@ import { Server } from "socket.io";
 import { initialiseDatabase } from "./db.js";
 import userRoutes from "./routes/userRoutes.js";
 import sessionRoutes from "./routes/sessionRoutes.js";
+import codeSnapshotRoutes from "./routes/codeSnapshotRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
 import { socketHandler } from "./sockets/socketHandler.js";
 
 const app = express();
@@ -70,3 +72,5 @@ initialiseDatabase()
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/sessions", sessionRoutes);
+app.use("/api/codesnap", codeSnapshotRoutes);
+app.use("/api/chat", messageRoutes);

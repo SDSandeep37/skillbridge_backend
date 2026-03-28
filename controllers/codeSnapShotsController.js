@@ -16,3 +16,9 @@ export async function loadCode(sessionId) {
   const code = await CodeSnapshots.getCodeBySessionId(sessionId);
   return code?.content || "";
 }
+
+export async function loadCodes(request, response) {
+  const { sessionId } = request.params;
+  const code = await CodeSnapshots.getCodeBySessionId(sessionId);
+  return response.json(code?.content || "");
+}
