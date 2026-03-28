@@ -40,7 +40,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.options(/.*/, cors(corsOptions));
-
+app.set("trust proxy", 1);
 //socket.io
 // const server = http.createServer(app);
 const httpServer = createServer(app);
@@ -63,16 +63,26 @@ socketHandler(io);
 //   .catch((err) => {
 //     console.error("Failed to initialize database", err);
 //   });
+// initialiseDatabase()
+//   .then(() => {
+//     httpServer.listen(PORT, () => {
+//       console.log(`Server running on port ${PORT}`);
+//     });
+//   })
+//   .catch((err) => {
+//     console.error("Failed to initialize database", err);
+//   });
+httpServer.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 initialiseDatabase()
   .then(() => {
-    httpServer.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+    console.log("Database connected");
   })
   .catch((err) => {
-    console.error("Failed to initialize database", err);
+    console.error("Database connection failed:", err);
   });
-
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/sessions", sessionRoutes);
