@@ -23,7 +23,7 @@ app.use(cookieParser());
 const allowedOrigins = [
   "http://localhost:3000",
   "http://10.16.0.240:3000",
-  "https://skillbridge-sandy-chi.vercel.app/",
+  "https://skillbridge-sandy-chi.vercel.app",
 ];
 const corsOptions = {
   origin: function (origin, callback) {
