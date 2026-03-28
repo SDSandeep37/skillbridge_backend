@@ -36,6 +36,18 @@ export const socketHandler = (io) => {
       const savedMessage = await saveMessage(sessionId, message, sender_id);
       io.to(sessionId).emit("receive-message", savedMessage);
     });
+
+    // for video call
+    socket.on("video-offer", ({ sessionId, offer }) => {
+      socket.to(sessionId).emit("video-offer", offer);
+    });
+    socket.on("video-answer", ({ sessionId, answer }) => {
+      socket.to(sessionId).emit("video-answer", answer);
+    });
+    socket.on("ice-candidate", ({ sessionId, candidate }) => {
+      socket.to(sessionId).emit("ice-candidate", { sessionId, candidate });
+    });
+
     socket.on("disconnect", () => {
       console.log("User disconnected:", socket.id);
     });
