@@ -52,7 +52,7 @@ export async function initialiseDatabase() {
     CREATE TABLE IF NOT EXISTS code_snapshots (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       session_id UUID REFERENCES sessions(id),
-      content LONGTEXT NOT NULL,
+      content TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
