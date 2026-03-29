@@ -38,16 +38,26 @@ export const socketHandler = (io) => {
     });
 
     // for video call
+    // socket.on("video-offer", ({ sessionId, offer }) => {
+    //   socket.to(sessionId).emit("video-offer", offer);
+    // });
+    // socket.on("video-answer", ({ sessionId, answer }) => {
+    //   socket.to(sessionId).emit("video-answer", answer);
+    // });
+    // socket.on("ice-candidate", ({ sessionId, candidate }) => {
+    //   socket.to(sessionId).emit("ice-candidate", { sessionId, candidate });
+    // });
     socket.on("video-offer", ({ sessionId, offer }) => {
-      socket.to(sessionId).emit("video-offer", offer);
+      socket.to(sessionId).emit("video-offer", { sessionId, offer });
     });
+
     socket.on("video-answer", ({ sessionId, answer }) => {
-      socket.to(sessionId).emit("video-answer", answer);
+      socket.to(sessionId).emit("video-answer", { sessionId, answer });
     });
+
     socket.on("ice-candidate", ({ sessionId, candidate }) => {
       socket.to(sessionId).emit("ice-candidate", { sessionId, candidate });
     });
-
     socket.on("disconnect", () => {
       console.log("User disconnected:", socket.id);
     });
