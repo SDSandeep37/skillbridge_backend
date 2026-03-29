@@ -10,7 +10,7 @@ export const pool = new Pool({
     rejectUnauthorized: false,
   },
 });
-
+console.log("DATABASE_URL:", process.env.DATABASE_URL);
 //run table creation query if not exists
 export async function initialiseDatabase() {
   await pool.query(`
