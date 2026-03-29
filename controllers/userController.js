@@ -6,7 +6,7 @@ import {
   passwordValidator,
   comparePassword,
 } from "../utils/validations.js";
-import { createTokenCookie } from "../utils/cookies.js";
+import { createTokenCookie, destroyTokenCookie } from "../utils/cookies.js";
 import jwt from "jsonwebtoken";
 import { configDotenv } from "dotenv";
 configDotenv();
@@ -185,6 +185,19 @@ export async function getUserRoleStudent(request, response) {
     });
   } catch (error) {
     console.error("Error getting user with role student", error);
+    response
+      .status(500)
+      .json({ error: `Internal Server Error: ${error.message}` });
+  }
+}
+//User logout controller
+export async function logoutController(request, response) {
+  try {
+    // Clear the token cookie
+    destroyTokenCookie(response);
+    response.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    console.error("Error logging out user", error);
     response
       .status(500)
       .json({ error: `Internal Server Error: ${error.message}` });

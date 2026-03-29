@@ -6,9 +6,9 @@ dotenv.config();
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   timezone: "Asia/Kolkata",
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  // ssl: {
+  //   rejectUnauthorized: false,
+  // },
 });
 console.log("DATABASE_URL:", process.env.DATABASE_URL);
 //run table creation query if not exists

@@ -2,6 +2,7 @@ import {
   createUserControllder,
   getUserRoleStudent,
   loginController,
+  logoutController,
   userLoginCheck,
 } from "../controllers/userController.js";
 import { verifyToken } from "../middleware/authMiddleware.js";
@@ -15,4 +16,5 @@ router.post("/login", loginController);
 // Protected routes
 router.post("/login-check", verifyToken, userLoginCheck);
 router.get("/students", verifyToken, getUserRoleStudent);
+router.post("/logout", verifyToken, logoutController);
 export default router;
